@@ -38,12 +38,10 @@ def print_header
 end
 
 def print(students)
-  puts "Print the students beginiing with"
-  puts "[Please note these will benn printed with their position in the list]"
-  letter = gets.chomp.capitalize
-  students.each_with_index do |student, index|
-    if student[:name].chars[0].capitalize == letter  
-      puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
+  puts "Here is a list of the students with names less than 12 characters"
+  students.each do |student|
+    if student[:name].length < 12  
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
     end  
   end    
 end 
