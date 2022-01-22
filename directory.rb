@@ -23,7 +23,7 @@ cohorts = [
   {cohort: :september, default: false}, 
   {cohort: :november, default: false}
   ]
- 
+    
 def input_students(months)
   puts "Please enter the names of the students"
   puts "To finish, just hot return twice"
@@ -79,10 +79,10 @@ def input_students(months)
       end  
     end
     
-    # enter country of birth
+    # enter Country of Birth
     valid = false
     while !valid do
-      puts "Please enter your Country of Birth"
+      puts "Please enter your Counttry of Birth"
       cob = gets.chomp
       if cob != ""
         valid = true
@@ -105,7 +105,7 @@ def input_students(months)
     name = gets.chomp
   end
   # finally return the array of students
-  students
+  return students
 end 
 
 def select_on_cohort(students)
@@ -217,13 +217,15 @@ def find_total_width(students)
 end 
 
 # Comment out the interactive user input for student for excercise 8
-  students = input_students(cohorts)
+students = input_students(cohorts)
 # Comment out the print by user selected cohort
 # students_to_list = select_on_cohort(students)
-widths = []
-widths=find_column_width(students) # get the widths dynamically according to full list od students 
-print_header(students)
+if students.count > 0
+  widths = []
+  widths=find_column_width(students) # get the widths dynamically according to full list od students 
+  print_header(students)
 # Comment out the print by selected list
 # print(students_to_list)
-print_by_cohort(students, widths)
-print_footer(students)
+  print_by_cohort(students, widths)
+  print_footer(students)
+end
