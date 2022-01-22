@@ -90,7 +90,7 @@ def find_column_width(students)
       max_cob = student[:cob].length
     end  
   end
-  # hardcode the width for the HEIGHT column and the COHORT column as constants
+  # hardcode the width for the COHORT column and the HEIGHT column as constants
   return [max_name, 18, max_hobby, max_cob, 6]
 end  
 
@@ -124,14 +124,42 @@ def print(students)
     puts "#{student[:name].center(find_column_width(students)[0], ' ')} #{cohort.center(18, ' ')} #{student[:hobby].center(find_column_width(students)[2], ' ')} #{student[:cob].to_s.center(find_column_width(students)[3], ' ')} #{student[:height]}"
     ind += 1
   end    
-end 
+end
+
+def select_on_cohort(students)
+  # firstly find the distinct cohort values
+  cohorts_available = students.map { |student| student[:cohort] }.uniq 
+  valid = false
+  while !valid do
+    # todo - see if I can output this list on one line
+    puts "Please select the cohort from the following list"
+    cohorts_available.each do |option|
+      puts option
+    end  
+    cohort = gets.chomp
+    if cohorts_available.include? (cohort.to_sym)  
+      valid = true
+    else
+      puts "#{cohort} is NOT ncluded in the above list - please try again"
+    end  
+  end
+  # todo I feel sure this can be done more succinctly without the "each" loop - come back to this
+  selected_students = []
+  students.each do |student|
+    if student[:cohort].to_s == cohort
+      selected_students.push(student)
+    end  
+  end 
+  return selected_students
+end  
 
 def print_footer(names)
   puts "Overall, we have #{names.count} great students".center(find_total_width(names), ' ')
 end
 
-# UNComment out the interactive user input for student for excercise 7
-students = input_students
-print_header(students)
-print(students)
-print_footer(students)
+# Comment out the interactive user input for student for excercise 8
+# students = input_students
+students_to_list = select_on_cohort(students)
+print_header(students_to_list)
+print(students_to_list)
+print_footer(students_to_list)
