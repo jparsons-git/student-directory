@@ -13,17 +13,16 @@ students = [
   {name: "Norman Bates", cohort: :november, hobby: "Card Playing", cob: :USA, height: "6'"}
 ]
 
-#begin
-#cohorts = [
-#  {cohort: :january, default: false}, 
-#  {cohort: :march, default: true}, 
-#  {cohort: :may, default: false}, 
-#  {cohort: :july, default: false}, 
-#  {cohort: :september, default: false}, 
-#  {cohort: :november, default: false}
-#  ]
-#end  
-
+# Uncomment the predefined cohort choices for user selection
+cohorts = [
+  {cohort: :january, default: false}, 
+  {cohort: :march, default: true}, 
+  {cohort: :may, default: false}, 
+  {cohort: :july, default: false}, 
+  {cohort: :september, default: false}, 
+  {cohort: :november, default: false}
+  ]
+ 
 def input_students(months)
   puts "Please enter the names of the students"
   puts "To finish, just hot return twice"
@@ -146,7 +145,9 @@ def print_by_cohort(students, widths)
       end
     end
     print(grouped_students, widths)
-    puts "In the #{cohort} cohort, we have #{grouped_students.count} great students".center(find_total_width(students), ' ')
+    puts grouped_students.count > 1 ? "In the #{cohort} cohort, we have #{grouped_students.count} great students".center(find_total_width(students), ' ')
+                                    : "In the #{cohort} cohort, we have #{grouped_students.count} great student".center(find_total_width(students), ' ')
+    #puts "In the #{cohort} cohort, we have #{grouped_students.count} great students".center(find_total_width(students), ' ') :
     puts  
   end  
 end  
@@ -175,7 +176,8 @@ def print(students, widths)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(find_total_width(names), ' ')
+  puts names.count > 1 ? "Overall, we have #{names.count} great students".center(find_total_width(names), ' ')
+                       : "Overall, we have #{names.count} great student".center(find_total_width(names), ' ')
 end
 
 def find_column_width(students)
@@ -209,7 +211,7 @@ def find_total_width(students)
 end 
 
 # Comment out the interactive user input for student for excercise 8
-# students = input_students(cohorts)
+students = input_students(cohorts)
 # Comment out the print by user selected cohort
 # students_to_list = select_on_cohort(students)
 widths = []
