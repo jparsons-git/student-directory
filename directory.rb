@@ -99,60 +99,7 @@ def input_students(months)
   end
   # finally return the array of students
   students
-end    
-
-def find_column_width(students)
-  # find the maximum width of the variable sized columns from the contents
-  # NB: start off with the width of the couln names
-  max_name = 4
-  max_hobby = 5
-  max_cob = 7
-  students.each do |student|
-    if student[:name].length > max_name
-      max_name = student[:name].length
-    end
-    if student[:hobby].length > max_hobby
-      max_hobby = student[:hobby].length
-    end
-    if student[:cob].length > max_cob
-      max_cob = student[:cob].length
-    end  
-  end
-  # hardcode the width for the COHORT column and the HEIGHT column as constants
-  return [max_name, 18, max_hobby, max_cob, 6]
-end  
-
-def find_total_width(students)
-  # derive the total width of the table of information - so enable centralising it
-  total_width = 0
-  find_column_width(students).each do |width|
-    total_width += width + 1
-  end
-  return total_width
 end 
-
-def print_header(students)
-  puts "The students of Villains Academy".center(find_total_width(students), ' ')
-  puts "--------------------------------".center(find_total_width(students), ' ')
-end
-
-def print(students)
-  name_col = "NAME"
-  cohort_col = "COHORT"
-  hobby_col = "HOBBY"
-  cob_col = "COUNTRY"
-  # output the column headings
-  puts "#{name_col.center(find_column_width(students)[0], ' ')} #{cohort_col.center(18, ' ')} #{hobby_col.center(find_column_width(students)[2], ' ')} #{cob_col.center(find_column_width(students)[3], ' ')} HEIGHT"
- # and now all the student information  
-  ind = 0
-  while ind < students.count do
-    student = students[ind]
-    # build the cohort string inbetween brackets with the static word "cohort"
-    cohort = "(#{student[:cohort].to_s} cohort)"
-    puts "#{student[:name].center(find_column_width(students)[0], ' ')} #{cohort.center(18, ' ')} #{student[:hobby].center(find_column_width(students)[2], ' ')} #{student[:cob].to_s.center(find_column_width(students)[3], ' ')} #{student[:height]}"
-    ind += 1
-  end    
-end
 
 def select_on_cohort(students)
   # firstly find the distinct cohort values
@@ -179,15 +126,94 @@ def select_on_cohort(students)
     end  
   end 
   return selected_students
+end 
+
+def print_by_cohort(students, widths)
+  # firstly find the distinct cohort values
+  cohorts_available = students.map { |student| student[:cohort] }.uniq
+  
+  grouped_students = []
+  cohorts_available.each do |cohort|
+    #puts "THIS IS THE COHORT #{cohort}"
+    grouped_students = []
+    students.each do |student|
+      #puts "THIS IS THE STUDENT'S COHORT #{student[:cohort]}"
+      if student[:cohort] == cohort
+        #puts "DO WE HAVE A MATCH on #{cohort}"
+        grouped_students.push(student)
+      end
+    end
+    print(grouped_students, widths)
+    puts "In the #{cohort} cohort, we have #{grouped_students.count} great students".center(find_total_width(students), ' ')
+    puts  
+  end  
 end  
+
+def print_header(students)
+  puts "The students of Villains Academy".center(find_total_width(students), ' ')
+  puts "--------------------------------".center(find_total_width(students), ' ')
+end
+
+def print(students, widths)
+  name_col = "NAME"
+  cohort_col = "COHORT"
+  hobby_col = "HOBBY"
+  cob_col = "COUNTRY"
+  # output the column headings
+  puts "#{name_col.center(widths[0], ' ')} #{cohort_col.center(18, ' ')} #{hobby_col.center(widths[2], ' ')} #{cob_col.center(widths[3], ' ')} HEIGHT"
+ # and now all the student information  
+  ind = 0
+  while ind < students.count do
+    student = students[ind]
+    # build the cohort string inbetween brackets with the static word "cohort"
+    cohort = "(#{student[:cohort].to_s} cohort)"
+    puts "#{student[:name].center(widths[0], ' ')} #{cohort.center(18, ' ')} #{student[:hobby].center(widths[2], ' ')} #{student[:cob].to_s.center(widths[3], ' ')} #{student[:height]}"
+    ind += 1
+  end    
+end
 
 def print_footer(names)
   puts "Overall, we have #{names.count} great students".center(find_total_width(names), ' ')
 end
 
+def find_column_width(students)
+  # find the maximum width of each column from the contents
+  max_name = 4
+  max_hobby = 5
+  max_cob = 7
+  students.each do |student|
+    if student[:name].length > max_name
+      max_name = student[:name].length
+    end
+    if student[:hobby].length > max_hobby
+      max_hobby = student[:hobby].length
+    end
+    if student[:cob].length > max_cob
+      max_cob = student[:cob].length
+    end  
+  end
+  # hardcode the width for the COHORT column and the HEIGHT column as is constant
+  return [max_name, 18, max_hobby, max_cob, 6]
+end  
+
+
+def find_total_width(students)
+  # derive the total width of the table of information - so enable centralising it
+  total_width = 0
+  find_column_width(students).each do |width|
+    total_width += width + 1
+  end
+  return total_width
+end 
+
 # Comment out the interactive user input for student for excercise 8
 # students = input_students(cohorts)
-students_to_list = select_on_cohort(students)
-print_header(students_to_list)
-print(students_to_list)
-print_footer(students_to_list)
+# Comment out the print by user selected cohort
+# students_to_list = select_on_cohort(students)
+widths = []
+widths=find_column_width(students) # get the widths dynamically according to full list od students 
+print_header(students)
+# Comment out the print by selected list
+# print(students_to_list)
+print_by_cohort(students, widths)
+print_footer(students)
