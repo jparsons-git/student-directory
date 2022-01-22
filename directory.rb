@@ -13,14 +13,16 @@ students = [
   {name: "Norman Bates", cohort: :november, hobby: "Card Playing", cob: :USA, height: "6'"}
 ]
 
-cohorts = [
-  {cohort: :january, default: false}, 
-  {cohort: :march, default: true}, 
-  {cohort: :may, default: false}, 
-  {cohort: :july, default: false}, 
-  {cohort: :september, default: false}, 
-  {cohort: :november, default: false}
-  ]
+#begin
+#cohorts = [
+#  {cohort: :january, default: false}, 
+#  {cohort: :march, default: true}, 
+#  {cohort: :may, default: false}, 
+#  {cohort: :july, default: false}, 
+#  {cohort: :september, default: false}, 
+#  {cohort: :november, default: false}
+#  ]
+#end  
 
 def input_students(months)
   puts "Please enter the names of the students"
