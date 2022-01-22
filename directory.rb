@@ -13,7 +13,16 @@ students = [
   {name: "Norman Bates", cohort: :november, hobby: "Card Playing", cob: :USA, height: "6'"}
 ]
 
-def input_students
+cohorts = [
+  {cohort: :january, default: false}, 
+  {cohort: :march, default: true}, 
+  {cohort: :may, default: false}, 
+  {cohort: :july, default: false}, 
+  {cohort: :september, default: false}, 
+  {cohort: :november, default: false}
+  ]
+
+def input_students(months)
   puts "Please enter the names of the students"
   puts "To finish, just hot return twice"
   # initialise an empty students array
@@ -23,21 +32,37 @@ def input_students
   # while name is not empty... repeat 
   while !name.empty? do
     
+    # select the cohort
     valid = false
+    chosen_month = ""
+    default_month = ""
     while !valid do
-      puts "Please select your cohort - november, may or september - no entry will default to november"
-      cohort = gets.chomp
-      if cohort == "november" || cohort == "may" || cohort == "september"
+      puts "Please select the month of the cohort from the following: "
+      months.each do |month|
+        # output the options, and derive the default month
+        if month[:default]
+          puts "#{month[:cohort]} (default month)"
+          default_month = month[:cohort]
+        else
+          puts "#{month[:cohort]}"
+        end  
+      end
+      # get/map the availble months for the cohorts
+      months_available = months.map { |month| month[:cohort] }
+      chosen_month = gets.chomp
+      if months_available.include? (chosen_month.to_sym)  
         valid = true
-      elsif cohort == ""
+      elsif chosen_month == ""
         valid = true
-        cohort = "november"
-        puts "Defaulted to november"
+        # use the default month here
+        chosen_month = default_month
+        puts "use the default month of #{default_month}"
       else
-        # do nothing - go roung again until valid entry
-      end  
+        puts "#{chosen_month} is NOT ncluded in the above list - please try again"
+      end 
     end
     
+    # enter hobby
     valid = false
     while !valid do
       puts "Please enter your hobby"
@@ -47,6 +72,7 @@ def input_students
       end  
     end
     
+    # enter country of birth
     valid = false
     while !valid do
       puts "Please enter your Country of Birth"
@@ -56,6 +82,7 @@ def input_students
       end  
     end
     
+    # enter height
     valid = false
     while !valid do
       puts "Please enter your height"
@@ -65,9 +92,9 @@ def input_students
       end  
     end
     
-    students << {name: name, cohort: cohort.to_sym, hobby: hobby, cob: cob, height: height}
+    students << {name: name, cohort: chosen_month.to_sym, hobby: hobby, cob: cob, height: height}
     puts "Now we have #{students.count} students"
-    # get another name from thu user
+    # get another name from the user
     name = gets.chomp
   end
   # finally return the array of students
@@ -76,9 +103,10 @@ end
 
 def find_column_width(students)
   # find the maximum width of the variable sized columns from the contents
-  max_name = 0
-  max_hobby = 0
-  max_cob = 0
+  # NB: start off with the width of the couln names
+  max_name = 4
+  max_hobby = 5
+  max_cob = 7
   students.each do |student|
     if student[:name].length > max_name
       max_name = student[:name].length
@@ -130,8 +158,8 @@ def select_on_cohort(students)
   # firstly find the distinct cohort values
   cohorts_available = students.map { |student| student[:cohort] }.uniq 
   valid = false
+  
   while !valid do
-    # todo - see if I can output this list on one line
     puts "Please select the cohort from the following list"
     cohorts_available.each do |option|
       puts option
@@ -158,7 +186,7 @@ def print_footer(names)
 end
 
 # Comment out the interactive user input for student for excercise 8
-# students = input_students
+# students = input_students(cohorts)
 students_to_list = select_on_cohort(students)
 print_header(students_to_list)
 print(students_to_list)
