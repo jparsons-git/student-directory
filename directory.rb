@@ -1,4 +1,5 @@
 # put all the students into an array
+
 students = [
   {name: "Dr. Hannibal Lector", cohort: :november, hobby: "Eating", cob: :USA, height: "6'"},
   {name: "Darth Vader", cohort: :november, hobby: "Destruction", cob: :USA, height: "5' 8"},
@@ -28,8 +29,13 @@ def input_students(months)
   puts "To finish, just hot return twice"
   # initialise an empty students array
   students = []
-  # get the first name
-  name = gets.chomp
+  
+  # get the first name using chomp
+  # name = gets.chomp
+  # get the first name using gets - ie String - For step8 Exercise10
+  name = gets
+  name = name.slice(0,name.length-1) # remove last charcter (new line)
+  
   # while name is not empty... repeat 
   while !name.empty? do
     
@@ -211,7 +217,7 @@ def find_total_width(students)
 end 
 
 # Comment out the interactive user input for student for excercise 8
-students = input_students(cohorts)
+  students = input_students(cohorts)
 # Comment out the print by user selected cohort
 # students_to_list = select_on_cohort(students)
 widths = []
