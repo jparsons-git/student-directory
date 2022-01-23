@@ -1,29 +1,4 @@
-# put all the students into an array
 
-students = [
-  {name: "Dr. Hannibal Lector", cohort: :november, hobby: "Eating", cob: :USA, height: "6'"},
-  {name: "Darth Vader", cohort: :november, hobby: "Destruction", cob: :USA, height: "5' 8"},
-  {name: "Nurse Ratched", cohort: :may, hobby: "Caring", cob: :Canada, height: "5' 5"},
-  {name: "Michael Corleone", cohort: :november, hobby: "Eating", cob: :England, height: "5' 11"},
-  {name: "Alex DeLarge", cohort: :september, hobby: "Eating", cob: :Denmark, height: "6' 5"},
-  {name: "The Wicked Witch of the West", cohort: :november, hobby: "Flying", cob: :USA, height: "5' 5"},
-  {name: "Terminator", cohort: :may, hobby: "Flying", cob: :Sweden, height: "5' 10"},
-  {name: "Freddie Krueger", cohort: :november, hobby: "Eating", cob: :Australia, height: "5' 9"},
-  {name: "The Joker", cohort: :may, hobby: "Card Playing", cob: :Canada, height: "4' 9"},
-  {name: "Joffrey Baratheon", cohort: :november, hobby: "Eating", cob: :Sweden, height: "5' 5"},
-  {name: "Norman Bates", cohort: :november, hobby: "Card Playing", cob: :USA, height: "6'"}
-]
-
-# Uncomment the predefined cohort choices for user selection
-cohorts = [
-  {cohort: :january, default: false}, 
-  {cohort: :march, default: true}, 
-  {cohort: :may, default: false}, 
-  {cohort: :july, default: false}, 
-  {cohort: :september, default: false}, 
-  {cohort: :november, default: false}
-  ]
-    
 def input_students(months)
   puts "Please enter the names of the students"
   puts "To finish, just hot return twice"
@@ -216,16 +191,74 @@ def find_total_width(students)
   return total_width
 end 
 
-# Comment out the interactive user input for student for excercise 8
-students = input_students(cohorts)
-# Comment out the print by user selected cohort
-# students_to_list = select_on_cohort(students)
-if students.count > 0
-  widths = []
-  widths=find_column_width(students) # get the widths dynamically according to full list od students 
-  print_header(students)
-# Comment out the print by selected list
-# print(students_to_list)
-  print_by_cohort(students, widths)
-  print_footer(students)
-end
+def interactive_menu
+  
+  given_students = [
+  {name: "Dr. Hannibal Lector", cohort: :november, hobby: "Eating", cob: :USA, height: "6'"},
+  {name: "Darth Vader", cohort: :november, hobby: "Destruction", cob: :USA, height: "5' 8"},
+  {name: "Nurse Ratched", cohort: :may, hobby: "Caring", cob: :Canada, height: "5' 5"},
+  {name: "Michael Corleone", cohort: :november, hobby: "Eating", cob: :England, height: "5' 11"},
+  {name: "Alex DeLarge", cohort: :september, hobby: "Eating", cob: :Denmark, height: "6' 5"},
+  {name: "The Wicked Witch of the West", cohort: :november, hobby: "Flying", cob: :USA, height: "5' 5"},
+  {name: "Terminator", cohort: :may, hobby: "Flying", cob: :Sweden, height: "5' 10"},
+  {name: "Freddie Krueger", cohort: :november, hobby: "Eating", cob: :Australia, height: "5' 9"},
+  {name: "The Joker", cohort: :may, hobby: "Card Playing", cob: :Canada, height: "4' 9"},
+  {name: "Joffrey Baratheon", cohort: :november, hobby: "Eating", cob: :Sweden, height: "5' 5"},
+  {name: "Norman Bates", cohort: :november, hobby: "Card Playing", cob: :USA, height: "6'"}
+  ]
+
+# Uncomment the predefined cohort choices for user selection
+  cohorts = [
+  {cohort: :january, default: false}, 
+  {cohort: :march, default: true}, 
+  {cohort: :may, default: false}, 
+  {cohort: :july, default: false}, 
+  {cohort: :september, default: false}, 
+  {cohort: :november, default: false}
+  ]
+  
+  students = []
+  loop do
+    # list the options for the user
+    puts "1. Input students"
+    puts "2. Show students"
+    puts "3. Show given students"
+    puts "4. Show given students by cohort"
+    puts "9. Exit"
+    # get the user selected option
+    selected = gets.chomp
+    # put into action the user's selection
+    case selected
+    when "1"
+      students = input_students(cohorts)
+    when "2"
+      if students.count > 0
+        widths = []
+        widths=find_column_width(students) # get the widths dynamically according to full list od students 
+        print_header(students)
+        print(students, widths)
+        print_footer(students)
+      end
+    when "3"
+      if given_students.count > 0
+        widths = []
+        widths=find_column_width(given_students) # get the widths dynamically according to full list od students 
+        print_header(given_students)
+        print(given_students, widths)
+        print_footer(given_students)
+      end
+    when "4"
+      if given_students.count > 0
+        widths = []
+        widths=find_column_width(given_students) # get the widths dynamically according to full list od students 
+        print_header(given_students)
+        print_by_cohort(given_students, widths)
+        print_footer(given_students)
+      end
+    when "9"
+      exit
+    else
+      puts "Option not available, please try again"
+    end  
+  end  
+end 
