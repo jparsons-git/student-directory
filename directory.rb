@@ -100,6 +100,8 @@ def interactive_menu
       end
     when "3"
       save_students
+    when "4"
+      load_students
     when "9"
       exit
     else
@@ -112,6 +114,7 @@ def print_menu
   puts "1. Input students"
   puts "2. Show students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end  
 
@@ -153,7 +156,6 @@ end
 def save_students()
   # open the file for writing - (look at changing 2nd argument to "a" once created for appending) 
   file = File.open("students.csv", "w")
-  
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:hobby], student[:cob], student[:height]]
@@ -161,4 +163,13 @@ def save_students()
     file.puts csv_line
   end
   file.close
-end  
+end 
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+  name, cohort, hobby, cob, height = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym, hobby: hobby, cob: cob, height: height}
+  end
+  file.close
+end
