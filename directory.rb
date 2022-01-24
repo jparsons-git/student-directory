@@ -98,6 +98,8 @@ def interactive_menu
       if students.count > 0
         show_students(students)
       end
+    when "3"
+      save_students
     when "9"
       exit
     else
@@ -109,8 +111,7 @@ end
 def print_menu
   puts "1. Input students"
   puts "2. Show students"
-  #puts "3. Show given students"
-  #puts "4. Show given students by cohort"
+  puts "3. Save the list to students.csv"
   puts "9. Exit"
 end  
 
@@ -148,3 +149,16 @@ def print_footer(names)
   puts names.count > 1 ? "Overall, we have #{names.count} great students".center(total_width, ' ')
                        : "Overall, we have #{names.count} great student".center(total_width, ' ')
 end
+
+def save_students()
+  # open the file for writing - (look at changing 2nd argument to "a" once created for appending) 
+  file = File.open("students.csv", "w")
+  
+  # iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort], student[:hobby], student[:cob], student[:height]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+end  
